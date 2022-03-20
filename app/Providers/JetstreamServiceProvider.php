@@ -58,6 +58,11 @@ class JetstreamServiceProvider extends ServiceProvider
             'delete',
         ])->description('Administrator users can perform any action.');
 
+        // Роль "наблюдатель"
+        Jetstream::role('observer', 'Observer', [
+            'read',
+        ])->description('Observer users can only read.');
+
         Jetstream::role('editor', 'Editor', [
             'read',
             'create',
