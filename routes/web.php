@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\WorkingTimeController; 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +26,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])
+    ->group(function () {
+
+    // Стартовая страничка административной части
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    // Обзор зарегистрированного рабочего времени
+    Route::get('/workingTime',
+        [WorkingTimeController::class, 'index']
+    )->name('workingTime');
+});

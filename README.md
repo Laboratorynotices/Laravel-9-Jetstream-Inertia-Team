@@ -1,3 +1,10 @@
+# О проекте
+
+Данный проект помогает мне разобраться с Laravel Jetstream. Пока я на практике разбираюсь с этим фреймворком, я пишу комментарии в <a href="https://laboratorynotices.wordpress.com/2022/03/20/laravel-9-jetstream-%d1%81-inertia-%d1%83%d1%87%d1%91%d1%82-%d1%80%d0%b0%d0%b1%d0%be%d1%87%d0%b5%d0%b3%d0%be-%d0%b2%d1%80%d0%b5%d0%bc%d0%b5%d0%bd%d0%b8-%d1%87%d0%b0%d1%81%d1%82%d1%8c-0/" target="_blank">своём блоге</a>.
+
+------
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">

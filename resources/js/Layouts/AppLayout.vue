@@ -23,6 +23,11 @@
                                     Dashboard
                                 </jet-nav-link>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:flex">
+                                <jet-nav-link :href="route('workingTime')" :active="route().current('workingTime')">
+                                    Учёт
+                                </jet-nav-link>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
