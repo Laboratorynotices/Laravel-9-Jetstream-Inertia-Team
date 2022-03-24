@@ -34,8 +34,19 @@ Route::middleware(['auth:sanctum', 'verified'])
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    // Обзор зарегистрированного рабочего времени
+    /* Обзор зарегистрированного рабочего времени
+     * этим пользователем.
+     * Обычный вид.
+     */
     Route::get('/workingTime',
         [WorkingTimeController::class, 'index']
     )->name('workingTime');
+
+    /* Обзор зарегистрированного рабочего времени
+     * всеми пользователями.
+     * Административный вид.
+     */
+    Route::get('/workingTime/indexAll',
+        [WorkingTimeController::class, 'indexAll']
+    )->name('workingTime.index.all');
 });

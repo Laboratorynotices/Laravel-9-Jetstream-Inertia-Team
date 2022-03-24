@@ -7,15 +7,32 @@ use App\Http\Requests\UpdateWorkingTimeRequest;
 use App\Models\WorkingTime;
 
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class WorkingTimeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Обзор зарегистрированного рабочего времени
+     * этим пользователем.
+     * Обычный вид.
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        return Inertia::render('WorkingTime', [
+            // Считываем записи рабочего времени этого пользователя
+            'workingTimes' => WorkingTime::where('user_id', Auth::id())->get(),
+        ]);
+    }
+
+    /**
+     * Обзор зарегистрированного рабочего времени
+     * всеми пользователями.
+     * Административный вид.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexAll() {
         return Inertia::render('WorkingTime', [
             // Считываем все записи рабочего времени
             'workingTimes' => WorkingTime::all(),
