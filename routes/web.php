@@ -49,4 +49,16 @@ Route::middleware(['auth:sanctum', 'verified'])
     Route::get('/workingTime/indexAll',
         [WorkingTimeController::class, 'indexAll']
     )->name('workingTime.index.all');
+
+    /* Форма для добавления новой записи
+     */
+    Route::get('/workingTime/create',
+        [WorkingTimeController::class, 'create']
+    )->name('workingTime.create');
+
+    /* Сохранение данных при создании формы
+    */
+    Route::post('/workingTime/store',
+        [WorkingTimeController::class, 'store']
+    )->name('workingTime.store');
 });

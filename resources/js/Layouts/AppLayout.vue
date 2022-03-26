@@ -58,7 +58,7 @@
                                                 Учёт веремени этого пользователя
                                             </jet-dropdown-link>
 
-                                            <jet-dropdown-link :href="route('workingTime')" :active="route().current('workingTime')">
+                                            <jet-dropdown-link :href="route('workingTime.create')" :active="route().current('workingTime.create')">
                                                 Добавление новой записи
                                             </jet-dropdown-link>
                                         </template>

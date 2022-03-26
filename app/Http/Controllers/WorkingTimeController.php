@@ -44,9 +44,8 @@ class WorkingTimeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        return Inertia::render('WorkingTimeCreate');
     }
 
     /**
@@ -55,9 +54,24 @@ class WorkingTimeController extends Controller
      * @param  \App\Http\Requests\StoreWorkingTimeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreWorkingTimeRequest $request)
-    {
-        //
+    public function store(StoreWorkingTimeRequest $request) {
+
+        // Подготовим данные для записи
+        $workingTime = array(
+            'user_id' => Auth::id(),
+            'description' => $request->description,
+            // воспользуемся хелпером now() (классом Carbon)
+            'date' => now()->toDateString(),
+            'begin' => now()->toTimeString(),
+        );
+
+        // Тут можно сделать валидацию
+
+        WorkingTime::create(
+            $workingTime
+        );
+
+        return redirect()->route('workingTime');
     }
 
     /**

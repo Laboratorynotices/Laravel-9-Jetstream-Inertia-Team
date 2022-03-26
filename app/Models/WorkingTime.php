@@ -9,10 +9,15 @@ class WorkingTime extends Model
 {
     use HasFactory;
 
-    /* Всегда автоматически подгружать данные пользователей,
+    /** Всегда автоматически подгружать данные пользователей,
      * чтобы их тут же передавать в вид. 
      */
     protected $with = array('user');
+
+    /** Поля, которые можно сохранять группой
+     * @var array
+     */
+    protected $fillable = ['user_id', 'date', 'description', 'begin', 'end'];
 
     /**
      * Get the user that owns the record.
