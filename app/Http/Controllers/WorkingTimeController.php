@@ -91,9 +91,10 @@ class WorkingTimeController extends Controller
      * @param  \App\Models\WorkingTime  $workingTime
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkingTime $workingTime)
-    {
-        //
+    public function edit(WorkingTime $workingTime) {
+        return Inertia::render('WorkingTimeEdit', [
+            'workingTime' => $workingTime->toArray()
+        ]);
     }
 
     /**
@@ -103,9 +104,25 @@ class WorkingTimeController extends Controller
      * @param  \App\Models\WorkingTime  $workingTime
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateWorkingTimeRequest $request, WorkingTime $workingTime)
-    {
-        //
+    public function update(UpdateWorkingTimeRequest $request, WorkingTime $workingTime) {
+        // @TODO Валидация
+ 
+        // Считываем входящие данные
+        $input = $request->input();
+
+        // Обновляем данные модели, которые были определены как "fillable"
+        $workingTime->fill($input);
+
+        // Добавляем время окончания рабочего дня
+        $workingTime->end = now()->toTimeString();
+
+        // Сохраняем данные
+        $workingTime->save();
+
+        // @TODO обработка, если запись данных не получится
+
+        // Перенаправляемся к списку записей
+        return redirect()->route('workingTime.index');
     }
 
     /**

@@ -54,7 +54,7 @@
                                                 Учёт веремени всех
                                             </jet-dropdown-link>
 
-                                            <jet-dropdown-link :href="route('workingTime')" :active="route().current('workingTime')">
+                                            <jet-dropdown-link :href="route('workingTime.index')" :active="route().current('workingTime.index')">
                                                 Учёт веремени этого пользователя
                                             </jet-dropdown-link>
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\WorkingTimeController; 
+use App\Models\WorkingTime;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,31 +35,54 @@ Route::middleware(['auth:sanctum', 'verified'])
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    /* Обзор зарегистрированного рабочего времени
-     * этим пользователем.
-     * Обычный вид.
-     */
-    Route::get('/workingTime',
-        [WorkingTimeController::class, 'index']
-    )->name('workingTime');
+    // Используем префикс в пути и имени маршрутов
+    Route::prefix('workingTime')->name('workingTime.')->group(function () {
+        /* Обзор зарегистрированного рабочего времени
+         * этим пользователем.
+         * Обычный вид.
+         */
+        Route::get('/index',
+            [WorkingTimeController::class, 'index']
+        )->name('index');
 
-    /* Обзор зарегистрированного рабочего времени
-     * всеми пользователями.
-     * Административный вид.
-     */
-    Route::get('/workingTime/indexAll',
-        [WorkingTimeController::class, 'indexAll']
-    )->name('workingTime.index.all');
+        /* Обзор зарегистрированного рабочего времени
+         * всеми пользователями.
+         * Административный вид.
+         */
+        Route::get('/indexAll',
+            [WorkingTimeController::class, 'indexAll']
+        )->name('index.all');
 
-    /* Форма для добавления новой записи
-     */
-    Route::get('/workingTime/create',
-        [WorkingTimeController::class, 'create']
-    )->name('workingTime.create');
+        /* Форма для добавления новой записи
+         */
+        Route::get('/create',
+            [WorkingTimeController::class, 'create']
+        )->name('create');
 
-    /* Сохранение данных при создании формы
-    */
-    Route::post('/workingTime/store',
-        [WorkingTimeController::class, 'store']
-    )->name('workingTime.store');
+        /* Сохранение данных при создании формы
+         */
+        Route::post('/store',
+            [WorkingTimeController::class, 'store']
+        )->name('store');
+
+        // Форма для редактирования записи
+        Route::get('/edit/{workingTime}',
+            // указание на контроллер и метод
+            [WorkingTimeController::class, 'edit']
+        )
+        // фильтр по входящему параметру
+        ->whereNumber('workingTime')
+        // наименование маршрута
+        ->name('edit');
+
+        // Обработка данных, полученных от формы
+        Route::post('/update/{workingTime}',
+            // указание на контроллер и метод
+            [WorkingTimeController::class, 'update']
+        )
+        // фильтр по входящему параметру
+        ->whereNumber('workingTime')
+        // наименование маршрута
+        ->name('update');
+    });
 });
