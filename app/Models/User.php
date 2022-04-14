@@ -58,4 +58,60 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Привязываем записи рабочих сессий к пользователю
+     * 
+     * @return app/Models/WorkingTime
+     */
+    public function workingTimes() {
+        return $this->hasMany(WorkingTime::class);
+    }
+
+    /**
+     * Возвращает список "открытых" сессий,
+     * у которых нет данных об окончании,
+     * для этого пользователя.
+     * 
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function openedWorkSessions() {
+        return $this->workingTimes()->where('end', NULL);
+    }
+
+    /**
+     * Возвращает одну (первую) "открытую" сессию,
+     * у которой нет данных об окончании,
+     * для этого пользователя.
+     * 
+     * @return App\Models\WorkingTime
+     */
+    public function openedWorkSession() {
+        return $this->openedWorkSessions()->first();
+    }
+
+    /**
+     * Возвращает номер этой "открытой" сессии.
+     * 
+     * @return Interger
+     */
+    public function openedWorkSessionID() {
+        /* Проверка сделана на случай,
+         * если у этого пользователя нет "открытых" записей.
+         */ 
+        return is_null($this->openedWorkSession()) ?
+                null :
+                $this->openedWorkSession()->id;
+    }
+
+    /**
+     * Определяет есть ли "открытые" сессии.
+     * 
+     * @return Boolean
+     */
+    public function isSomeOpenedWorkSession() {
+        return !is_null($this->openedWorkSession());
+        // Альтернатива
+        //return $this->openedWorkSessions->isNotEmpty();
+    }
 }

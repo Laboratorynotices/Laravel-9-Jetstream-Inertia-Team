@@ -23,6 +23,26 @@
                                     Dashboard
                                 </jet-nav-link>
                             </div>
+                            <!-- Создать новую запись, показывается, если нет уже открытой -->
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:flex"
+                                v-if="!$page.props.user.isSomeOpenedWorkSession"
+                            >
+                                <jet-nav-link :href="route('workingTime.create')" :active="route().current('workingTime.create')">
+                                    Добавление новой записи
+                                </jet-nav-link >
+                            </div>
+                            <!-- Закрыть старую запись, показывается, если такая есть -->
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:flex"
+                                v-else
+                            >
+                                <jet-nav-link
+                                    :href="route('workingTime.edit', $page.props.user.openedWorkSessionID)"
+                                    :active="route().current('workingTime.edit', $page.props.user.openedWorkSessionID)">
+                                    Окончание рабочего дня
+                                </jet-nav-link >
+                            </div>
                             <div class="hidden space-x-8 sm:-my-px sm:flex">
                                 <jet-nav-link :href="route('workingTime.index.all')" :active="route().current('workingTime.index.all')">
                                     Учёт

@@ -35,6 +35,12 @@ Route::middleware(['auth:sanctum', 'verified'])
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    /* Перенаправляем на index
+     */
+    Route::get('/workingTime', function () {
+        return redirect()->route('workingTime.index');
+    })->name('workingTime');
+
     // Используем префикс в пути и имени маршрутов
     Route::prefix('workingTime')->name('workingTime.')->group(function () {
         /* Обзор зарегистрированного рабочего времени
