@@ -70,7 +70,11 @@
                                                 Учёт веремени
                                             </div>
 
-                                            <jet-dropdown-link :href="route('workingTime.index.all')" :active="route().current('workingTime.index.all')">
+                                            <!-- Отображается список записей всех пользователей, показывается если у пользователя есть права на это. -->
+                                            <jet-dropdown-link
+                                                v-if="$page.props.can.WorkingTime.IndexAll"
+                                                :href="route('workingTime.index.all')"
+                                                :active="route().current('workingTime.index.all')">
                                                 Учёт веремени всех
                                             </jet-dropdown-link>
 
@@ -78,7 +82,10 @@
                                                 Учёт веремени этого пользователя
                                             </jet-dropdown-link>
 
-                                            <jet-dropdown-link :href="route('workingTime.create')" :active="route().current('workingTime.create')">
+                                            <jet-dropdown-link
+                                                v-if="!$page.props.user.isSomeOpenedWorkSession"
+                                                :href="route('workingTime.create')"
+                                                :active="route().current('workingTime.create')">
                                                 Добавление новой записи
                                             </jet-dropdown-link>
                                         </template>

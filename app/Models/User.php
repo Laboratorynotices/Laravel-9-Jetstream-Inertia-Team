@@ -64,7 +64,7 @@ class User extends Authenticatable
      * 
      * @return app/Models/WorkingTime
      */
-    public function workingTimes() {
+    public function workingTimes(): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->hasMany(WorkingTime::class);
     }
 
@@ -75,7 +75,7 @@ class User extends Authenticatable
      * 
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function openedWorkSessions() {
+    public function openedWorkSessions(): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->workingTimes()->where('end', NULL);
     }
 
@@ -86,16 +86,16 @@ class User extends Authenticatable
      * 
      * @return App\Models\WorkingTime
      */
-    public function openedWorkSession() {
+    public function openedWorkSession(): ?WorkingTime {
         return $this->openedWorkSessions()->first();
     }
 
     /**
      * Возвращает номер этой "открытой" сессии.
      * 
-     * @return Interger
+     * @return int
      */
-    public function openedWorkSessionID() {
+    public function openedWorkSessionID(): ?int {
         /* Проверка сделана на случай,
          * если у этого пользователя нет "открытых" записей.
          */ 
@@ -104,14 +104,29 @@ class User extends Authenticatable
                 $this->openedWorkSession()->id;
     }
 
-    /**
+    /** 
      * Определяет есть ли "открытые" сессии.
      * 
-     * @return Boolean
+     * @return bool
      */
-    public function isSomeOpenedWorkSession() {
+    public function isSomeOpenedWorkSession(): bool {
         return !is_null($this->openedWorkSession());
         // Альтернатива
         //return $this->openedWorkSessions->isNotEmpty();
+    }
+
+    /** 
+     * Проверка, может ли этот пользователь смотреть записи всех пользователей.
+     * 
+     * @return bool
+     */
+    public function canWorkingTimeIndexAll(): bool {
+        // Получаем объект, с которым дальше будем работать.
+        // Альтернатива искать по имени 'Employee';
+        $team = Team::where('id', 1)->first();
+
+        // Есть ли у авторизованного пользователя разрешение 'update'
+        // (или 'read' для теста) в группе 'Employee'.
+        return $this->hasTeamPermission($team, 'update');
     }
 }

@@ -36,8 +36,7 @@ class HandleInertiaRequests extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function share(Request $request): array
-    {
+    public function share(Request $request): array {
         $user = Auth::user();
 
         return array_merge(parent::share($request), [
@@ -46,6 +45,9 @@ class HandleInertiaRequests extends Middleware
                 NULL,
             'user.openedWorkSessionID' => ($user) ?
                 $user->openedWorkSessionID() :
+                NULL,
+            'can.WorkingTime.IndexAll' => ($user) ?
+                $user->canWorkingTimeIndexAll() :
                 NULL,
         ]);
     }

@@ -33,6 +33,9 @@ class WorkingTimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function indexAll() {
+        // Проверка можно ли пользователю смотреть этот список.
+        $this->authorize('workingTime.indexAll');
+
         return Inertia::render('WorkingTime', [
             // Считываем все записи рабочего времени
             'workingTimes' => WorkingTime::all(),
