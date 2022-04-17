@@ -125,7 +125,7 @@ class User extends Authenticatable
         // Альтернатива искать по имени 'Employee';
         $team = Team::where('id', 1)->first();
 
-        // Разрешается смотреть лишь пользователям с ролью 'admin'
-        return $this->hasTeamRole($team, 'admin');
+        // Разрешается смотреть лишь пользователям с ролью 'admin' или 'observer'
+        return $this->hasTeamRole($team, 'admin') || $this->hasTeamRole($team, 'observer');
     }
 }
