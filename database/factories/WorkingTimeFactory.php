@@ -23,11 +23,11 @@ class WorkingTimeFactory extends Factory
         $time2 = $this->faker->time();
         return [
             /*
-             * Генерирует число от 1 до 10.
-             * По числу генерируемых пользователей
-             * в database/seeders/UserSeeder.php
+             * Генерирует число от 2 до 11.
+             * Пользователь с ID=1 - это супер администратор,
+             * А с ID=12 - наблюдатель
              */
-            'user_id' => $this->faker->numberBetween(1,10),
+            'user_id' => $this->faker->numberBetween(2,11),
             // Дата рабочего дня
             'date' => $this->faker->dateTimeBetween('-1 week', 'now'),
             // Начало рабочего дня, наименьшее из двух сгенерируемых
