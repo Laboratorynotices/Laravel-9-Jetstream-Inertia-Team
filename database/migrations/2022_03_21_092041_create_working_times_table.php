@@ -26,7 +26,7 @@ return new class extends Migration
             $table->date('date')->useCurrent()->comment('Дата рабочего дня');
             $table->time('begin')->useCurrent()->comment('Время начала рабочего дня');
             // А вот время окончания дня должно сохраняться при обновлении.
-            $table->time('end')->useCurrentOnUpdate()->comment('Время конца рабочего дня');
+            $table->time('end')->useCurrentOnUpdate()->nullable()->comment('Время конца рабочего дня');
             $table->text('description')->comment('Описание того, что было сделано в этот день.');
 
             $table->timestamps();
