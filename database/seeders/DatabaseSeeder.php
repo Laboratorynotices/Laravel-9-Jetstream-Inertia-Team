@@ -13,15 +13,15 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run() {
-        // Создаём пользователей
-        $this->call([
-            UserSeeder::class
-        ]);
-     
+        // Создаём команду
+        // и через неё пользователей, привязанных к ней.
         $this->call([
             TeamSeeder::class
         ]);
-     
+
+        // Пользователи уже были созданы при создании команд.
+
+        // Теперь создаём записи пользователей
         $this->call([
             WorkingTimeSeeder::class
         ]);
