@@ -125,8 +125,7 @@ class User extends Authenticatable
         // Альтернатива искать по имени 'Employee';
         $team = Team::where('id', 1)->first();
 
-        // Есть ли у авторизованного пользователя разрешение 'update'
-        // (или 'read' для теста) в группе 'Employee'.
-        return $this->hasTeamPermission($team, 'update');
+        // Разрешается смотреть лишь пользователям с ролью 'admin'
+        return $this->hasTeamRole($team, 'admin');
     }
 }
