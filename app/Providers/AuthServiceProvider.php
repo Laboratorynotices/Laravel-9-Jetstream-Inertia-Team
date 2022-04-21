@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Team;
+use App\Models\User;
+use App\Models\WorkingTime;
 use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -28,11 +28,17 @@ class AuthServiceProvider extends ServiceProvider
     public function boot() {
         $this->registerPolicies();
 
-        /* Определяем можно ли актуальному пользователю открывать
+        /* Можно ли актуальному пользователю открывать
          * список всех пользователей.
          */
         Gate::define('workingTime.indexAll', function (User $user) {
             return $user->canWorkingTimeIndexAll();
+        });
+
+        /* Можно ли актуальному пользователю изменять запись
+         */
+        Gate::define('workingTime.edit', function (User $user, WorkingTime $workingTime) {
+            return $workingTime->canBeEdited();
         });
     }
 }

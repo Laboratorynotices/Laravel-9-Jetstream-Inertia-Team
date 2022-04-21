@@ -121,9 +121,8 @@ class User extends Authenticatable
      * @return bool
      */
     public function canWorkingTimeIndexAll(): bool {
-        // Получаем объект, с которым дальше будем работать.
-        // Альтернатива искать по имени 'Employee';
-        $team = Team::where('id', 1)->first();
+        // Получаем группу сотрудников.
+        $team = Team::getEmployeeTeam();
 
         // Разрешается смотреть лишь пользователям с ролью 'admin' или 'observer'
         return $this->hasTeamRole($team, 'admin') || $this->hasTeamRole($team, 'observer');

@@ -95,6 +95,9 @@ class WorkingTimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(WorkingTime $workingTime) {
+        // Проверка доступа
+        $this->authorize('workingTime.edit', $workingTime);
+
         return Inertia::render('WorkingTimeEdit', [
             'workingTime' => $workingTime->toArray()
         ]);

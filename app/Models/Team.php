@@ -41,4 +41,12 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
+
+    /**
+     * Получаем команду с сотрудниками.
+     */
+    public static function getEmployeeTeam(): Team {
+        // Альтернатива искать по имени 'Employee';
+        return Team::where('id', 1)->first();
+    }
 }
