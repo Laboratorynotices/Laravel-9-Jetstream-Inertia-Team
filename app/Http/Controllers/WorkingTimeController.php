@@ -20,8 +20,15 @@ class WorkingTimeController extends Controller
      */
     public function index() {
         return Inertia::render('WorkingTime', [
-            // Считываем записи рабочего времени этого пользователя
-            'workingTimes' => WorkingTime::where('user_id', Auth::id())->get(),
+            // Считываем записи рабочего времени этого пользователя,
+            'workingTimes' => WorkingTime::where('user_id', Auth::id())->get()
+                // потом проходимся по каждому найденному элементу.
+                ->each(function ($item, $key) {
+                    // Добавляем новый атрибут к модели,
+                    $item->canBeEdited =
+                        // а его значение "высчитываем".
+                        $item->canBeEdited();
+                }),
         ]);
     }
 

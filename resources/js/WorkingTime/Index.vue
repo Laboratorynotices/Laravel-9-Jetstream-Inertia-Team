@@ -19,9 +19,18 @@
                         v-for="(workingTime, id) in workingTimes"
                         :key="id">
                         <td>
-                            <a :href="route('workingTime.edit', workingTime.id)">
+                            <a
+                                :href="route('workingTime.edit', workingTime.id)"
+                                v-if="workingTime.canBeEdited"
+                            >
                                 {{ workingTime.user.name }}
                             </a>
+                            <span
+                                v-else
+                                :name="workingTime.id"
+                            >
+                                {{ workingTime.user.name }}
+                            </span>
                         </td>
                         <td>{{ workingTime.date }}</td>
                         <td>{{ workingTime.begin }} - {{ workingTime.end }}</td>
