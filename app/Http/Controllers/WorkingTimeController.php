@@ -45,7 +45,14 @@ class WorkingTimeController extends Controller
 
         return Inertia::render('WorkingTime', [
             // Считываем все записи рабочего времени
-            'workingTimes' => WorkingTime::all(),
+            'workingTimes' => WorkingTime::all()
+            // потом проходимся по каждому найденному элементу.
+            ->each(function ($item, $key) {
+                // Добавляем новый атрибут к модели,
+                $item->canBeEdited =
+                    // а его значение "высчитываем".
+                    $item->canBeEdited();
+            }),
         ]);
     }
 
