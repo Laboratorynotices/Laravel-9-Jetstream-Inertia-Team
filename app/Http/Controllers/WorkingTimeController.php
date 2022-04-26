@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexAllWorkingTimeRequest;
 use App\Http\Requests\StoreWorkingTimeRequest;
 use App\Http\Requests\UpdateWorkingTimeRequest;
 use App\Models\WorkingTime;
+use App\Models\User;
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -37,15 +39,26 @@ class WorkingTimeController extends Controller
      * всеми пользователями.
      * Административный вид.
      *
+     * @param  \App\Http\Requests\IndexAllWorkingTimeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function indexAll() {
+    public function indexAll(IndexAllWorkingTimeRequest $request) {
+
         // Проверка можно ли пользователю смотреть этот список.
         $this->authorize('workingTime.indexAll');
 
+        // Загружаем рабочие записи
+        $workingTimes =
+            // Проверяем "фильтр", "null" - это false
+            ($request->usersSelect) ?
+                // отображаем данные лишь одного пользователя
+                WorkingTime::where('user_id', $request->usersSelect)->get() :
+                // показываем всех пользователей
+                WorkingTime::all();
+
         return Inertia::render('WorkingTime', [
             // Считываем все записи рабочего времени
-            'workingTimes' => WorkingTime::all()
+            'workingTimes' => $workingTimes
             // потом проходимся по каждому найденному элементу.
             ->each(function ($item, $key) {
                 // Добавляем новый атрибут к модели,
@@ -53,6 +66,8 @@ class WorkingTimeController extends Controller
                     // а его значение "высчитываем".
                     $item->canBeEdited();
             }),
+            // Загружаем всех пользователей
+            'users' => User::all(),
         ]);
     }
 

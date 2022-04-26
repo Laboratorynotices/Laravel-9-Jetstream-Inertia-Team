@@ -1,6 +1,28 @@
 <template>
     <div>
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+            <div
+                class="mt-6"
+                v-if="$page.props.users != null"
+            >
+                Фильтр
+                <form @submit.prevent="submit">
+                    <label for="usersSelect">Пользователи:</label>
+                    <select name="usersSelect" id="users-select" v-model="form.usersSelect">
+                        <option value="">--Выберите пользователя--</option>
+                        <option
+                            v-for="user in $page.props.users"
+                            :key="user.id"
+                            :value="user.id"
+                        >
+                            {{ user.name }}
+                        </option>
+                    </select>
+                    <br />
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
             <div class="mt-8 text-2xl">
                 Список отработанных часов.
             </div>
@@ -52,10 +74,25 @@
 
 <script>
     import { defineComponent } from 'vue'
+    import { reactive } from 'vue'
+    import { Inertia } from '@inertiajs/inertia'
     
     export default defineComponent({
         props: {
             workingTimes: Array
-        }
+        },
+
+        setup () {
+            
+            const form = reactive({
+                usersSelect: ''
+            })
+
+            function submit() {
+                Inertia.post('/workingTime/indexAll', form)
+            }
+
+            return { form, submit }
+        },
     })
 </script>
