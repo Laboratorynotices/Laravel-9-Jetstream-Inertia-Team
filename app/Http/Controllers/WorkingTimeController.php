@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkingTimeController extends Controller
 {
+    /** Сколько записей отображать на одной страничке при пагинации */
+    private const PAGINATEPERPAGE = 5;
+
     /**
      * Обзор зарегистрированного рабочего времени
      * этим пользователем.
@@ -21,16 +24,23 @@ class WorkingTimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
+
+        // Считываем записи рабочего времени этого пользователя,
+        $workingTimes = WorkingTime::where('user_id', Auth::id())
+            // с падигнацией
+            ->paginate(self::PAGINATEPERPAGE);
+
         return Inertia::render('WorkingTime', [
-            // Считываем записи рабочего времени этого пользователя,
-            'workingTimes' => WorkingTime::where('user_id', Auth::id())->get()
-                // потом проходимся по каждому найденному элементу.
+            'workingTimes' => $workingTimes
+                // Проходимся по каждому найденному элементу.
                 ->each(function ($item, $key) {
                     // Добавляем новый атрибут к модели,
                     $item->canBeEdited =
                         // а его значение "высчитываем".
                         $item->canBeEdited();
                 }),
+            // Данные для пагинации
+            'workingTimesLinks' => $workingTimes->links()->getData(),
         ]);
     }
 
@@ -52,9 +62,12 @@ class WorkingTimeController extends Controller
             // Проверяем "фильтр", "null" - это false
             ($request->usersSelect) ?
                 // отображаем данные лишь одного пользователя
-                WorkingTime::where('user_id', $request->usersSelect)->get() :
+                WorkingTime::where('user_id', $request->usersSelect)
+                    // Падигнация
+                    ->paginate(self::PAGINATEPERPAGE)
+                    ->appends(['usersSelect' => $request->usersSelect]) :
                 // показываем всех пользователей
-                WorkingTime::all();
+                WorkingTime::paginate(self::PAGINATEPERPAGE);
 
         return Inertia::render('WorkingTime', [
             // Считываем все записи рабочего времени
@@ -66,6 +79,8 @@ class WorkingTimeController extends Controller
                     // а его значение "высчитываем".
                     $item->canBeEdited();
             }),
+            // Данные для пагинации
+            'workingTimesLinks' => $workingTimes->links()->getData(),
             // Загружаем всех пользователей
             'users' => User::all(),
         ]);

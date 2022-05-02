@@ -38,7 +38,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(workingTime, id) in workingTimes"
+                        v-for="(workingTime, id) in $page.props.workingTimes"
                         :key="id">
                         <td>
                             <a
@@ -61,6 +61,12 @@
                 </tbody>
             </table>
 
+            <div
+                class="mt-6"
+            >
+                <Pagination class="mt-5" :links="$page.props.workingTimesLinks.paginator.links" />
+            </div>
+
             <div class="mt-6 text-gray-500">
                 Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed
                 to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe
@@ -76,12 +82,12 @@
     import { defineComponent } from 'vue'
     import { reactive } from 'vue'
     import { Inertia } from '@inertiajs/inertia'
+    import Pagination from '@/Сomponents/Pagination.vue'
     
     export default defineComponent({
-        props: {
-            workingTimes: Array
+        components: {
+            Pagination
         },
-
         setup () {
             
             const form = reactive({
@@ -89,7 +95,7 @@
             })
 
             function submit() {
-                Inertia.post('/workingTime/indexAll', form)
+                Inertia.get('/workingTime/indexAll', form)
             }
 
             return { form, submit }

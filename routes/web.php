@@ -58,11 +58,6 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::get('/indexAll',
             [WorkingTimeController::class, 'indexAll']
         )->name('index.all');
-        // Тоже самое, но для фильтра
-        Route::post('/indexAll',
-            [WorkingTimeController::class, 'indexAll']
-        )->name('index.all.post');
-
 
         /* Форма для добавления новой записи
          */
